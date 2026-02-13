@@ -4,10 +4,10 @@ import { Category } from "src/product/entities/category.entity";
 
 @Table
 export class Product extends Model {
-    @PrimaryKey
-    @AutoIncrement
-    @Column
-    declare id: number
+    // @PrimaryKey
+    // @AutoIncrement
+    // @Column
+    // declare id: number
 
     @Column
     name: string
@@ -28,8 +28,9 @@ export class Product extends Model {
     @BelongsTo(()=>Category)
     category: Category
 
-    @Column
+    @Column({
+        defaultValue: false
+    })
     is_active: boolean
-
 
 }

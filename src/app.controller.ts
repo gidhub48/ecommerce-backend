@@ -10,8 +10,4 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Get('/x')
-  getHi(): string {
-    return "hi world"
-  }
 }

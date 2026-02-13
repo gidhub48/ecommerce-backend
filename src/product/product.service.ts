@@ -4,13 +4,16 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 import { Op } from 'sequelize';
+import { Category } from './entities/category.entity';
 
 @Injectable()
 export class ProductService {
 
   constructor(
     @InjectModel(Product) 
-    private productModel: typeof Product
+    private productModel: typeof Product,
+    @InjectModel(Category)
+    private categoryModel: typeof Category
   ) {}
 
   async create(createProductDto: CreateProductDto) {
@@ -24,7 +27,7 @@ export class ProductService {
       where['name'] = {[Op.like]: [`%${name}%`]}
     }
     if (category !== undefined) {
-      where['category'] = category
+      where['category_id'] = category
     }
     if (maxPrice !== undefined && minPrice !== undefined) {
       if (Number(maxPrice) < Number(minPrice)) {
@@ -38,11 +41,30 @@ export class ProductService {
     if (minPrice && !maxPrice) {
       where['price'] = {[Op.gt]: [minPrice]}
     }
-    return this.productModel.findAll({where})
+    
+    return this.productModel.findAll({
+      where, 
+      include: [{model: Category, attributes: {exclude: ['createdAt', 'updatedAt']}}], 
+      attributes: {exclude: ['createdAt', 'updatedAt']}
+    })
+  }
+
+  async findAllCategories() {
+    return this.categoryModel.findAll({
+      attributes: {exclude: ['createdAt', 'updatedAt']}
+    });
   }
 
   async findOne(id: number) {
-    return this.productModel.findByPk(id);
+    return this.productModel.findByPk(id, 
+      {
+        include: [{
+          model: Category, 
+          attributes: {exclude: ['createdAt', 'updatedAt']}
+        }],
+        attributes: {exclude: ['createdAt', 'updatedAt']}
+      }
+    );
   }
 
   async update(id: number, updateProductDto: UpdateProductDto) {

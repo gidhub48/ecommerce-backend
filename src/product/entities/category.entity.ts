@@ -2,17 +2,17 @@ import { Column, Table, Model, PrimaryKey, AutoIncrement, ForeignKey, AllowNull 
 
 @Table
 export class Category extends Model {
-    @PrimaryKey
-    @AutoIncrement
-    @Column
-    declare id: number
+    // @PrimaryKey
+    // @AutoIncrement
+    // @Column
+    // declare id: number
 
     @Column
     name: string
 
     @ForeignKey(()=>Category)
     @Column({
-        
+        allowNull: true
     })
     parent_id: string
 }

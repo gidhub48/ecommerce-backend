@@ -17,8 +17,9 @@ export class OrderService {
     return this.orderModel.create({...createOrderDto});
   }
 
-  findAll() {
-    return this.orderModel.findAll();
+  findAll(userId?: number) {
+    const where = userId ? {user_id: userId} : {};
+    return this.orderModel.findAll({where});
   }
 
   findOne(id: number) {

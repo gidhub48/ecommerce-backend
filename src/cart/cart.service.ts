@@ -15,8 +15,8 @@ export class CartService {
     @InjectModel(CartItem) private cartItemModel: typeof CartItem
   ) {}
 
-  create(createCartDto: CreateCartDto) {
-    return this.cartModel.create({...createCartDto});
+  create(userId: number, createCartDto: CreateCartDto) {
+    return this.cartModel.create({...createCartDto, user_id: userId});
   }
 
   findAll() {
@@ -27,8 +27,8 @@ export class CartService {
     return this.cartModel.findByPk(id);
   }
 
-  update(id: number, updateCartDto: UpdateCartDto) {
-    return this.cartModel.update(updateCartDto, {where: {id}});
+  updateItem(itemId: number, updateCartDto: UpdateCartDto) {
+    return this.cartItemModel.update(updateCartDto, {where: {id: itemId}});
   }
 
   remove(id: number) {

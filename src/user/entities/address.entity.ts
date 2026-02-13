@@ -52,10 +52,9 @@ export class Address extends Model {
     })
     country: string;
 
-    // transaction, only 1 default
     @Default(false)
     @Column({
-        type: DataType.BOOLEAN,
+        type: DataType.BOOLEAN
     })
     isDefault: boolean;
 }

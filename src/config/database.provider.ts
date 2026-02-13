@@ -9,5 +9,5 @@ export const MariaDbModule = SequelizeModule.forRoot({
     database: 'app_db',
     autoLoadModels: true,
     synchronize: true, 
-    
+    logging: false
 })

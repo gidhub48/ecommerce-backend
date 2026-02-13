@@ -22,6 +22,10 @@ export class UserService {
     return this.userModel.findByPk(id);
   }
 
+  async findOneByColumn(column?: {}) {
+    return this.userModel.findOne({where: column});
+  }
+
   async update(id: number, updateUserDto: UpdateUserDto) {
     await this.userModel.update(updateUserDto, { where: {id} });
     return this.findOne(id)

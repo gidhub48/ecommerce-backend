@@ -1,27 +1,32 @@
-import { Column, Table, Model, PrimaryKey, AutoIncrement, BelongsTo } from "sequelize-typescript";
+import { Column, Table, Model, ForeignKey, HasMany, DataType } from "sequelize-typescript";
 import { Address } from "./address.entity";
 
-export type Role = 'User' | 'Admin'
+type Role = "User" | "Admin"
 
 @Table
 export class User extends Model {
 
     @Column
-    name: string
+    declare name: string
+
+    @Column({
+        unique: true
+    })
+    declare email: string
 
     @Column
-    email: string
+    declare password: string
 
     @Column
-    password: string
+    declare imageUrl: string
 
-    @Column
-    imageUrl: string
+    @Column({
+        type: DataType.ENUM("User", "Admin"),
+        defaultValue: "User"
+    })
+    declare role: Role
 
-    @Column
-    role: Role
-
-    @BelongsTo(()=>Address)
-    address: Address
+    @HasMany(()=>Address)
+    declare address: Address
 
 }
